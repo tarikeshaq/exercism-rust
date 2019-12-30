@@ -6,7 +6,7 @@ fn is_prime(i: u32) -> bool {
         }
         j += 1;
     }
-    return true;
+    true
 }
 
 pub fn nth(n: u32) -> u32 {
