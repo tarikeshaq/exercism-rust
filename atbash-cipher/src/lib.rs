@@ -1,5 +1,3 @@
-use itertools::Itertools;
-
 fn cipher_encode(c: char) -> char {
     let pos = c as u8 - b'a';
     let res_pos = 25 - pos;
@@ -8,7 +6,7 @@ fn cipher_encode(c: char) -> char {
 
 /// "Encipher" with the Atbash cipher.
 pub fn encode(plain: &str) -> String {
-    let mut res: String = plain
+    plain
         .chars()
         .filter(|c| c.is_alphabetic() || c.is_numeric())
         .map(|c| {
@@ -18,12 +16,16 @@ pub fn encode(plain: &str) -> String {
                 c
             }
         })
-        .chunks(5)
-        .into_iter()
-        .flat_map(|chunk| chunk.chain(" ".chars()))
-        .collect();
-    res.pop();
-    res
+        .enumerate()
+        .flat_map(|(i, c)| {
+            if i != 0 && i % 5 == 0 {
+                std::iter::once(Some(' ')).chain(std::iter::once(Some(c)))
+            } else {
+                std::iter::once(Some(c)).chain(std::iter::once(None))
+            }
+        })
+        .filter_map(|opt| opt)
+        .collect()
 }
 
 /// "Decipher" with the Atbash cipher.
