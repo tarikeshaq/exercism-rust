@@ -81,8 +81,8 @@ impl<T> FromIterator<T> for SimpleLinkedList<T> {
         let mut this = SimpleLinkedList::new();
         let mut iter = iter.into_iter();
         let mut element = iter.next();
-        while element.is_some() {
-            this.push(element.unwrap());
+        while let Some(data) = element {
+            this.push(data);
             element = iter.next();
         }
         this
