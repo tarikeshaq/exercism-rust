@@ -32,9 +32,8 @@ impl<T> SimpleLinkedList<T> {
         }));
 
         let old_head = std::mem::replace(&mut self.head, new_head);
-        match &old_head {
-            None => {}
-            Some(_) => self.head.as_mut().unwrap().next = old_head,
+        if old_head.is_some() {
+            self.head.as_mut().unwrap().next = old_head;
         }
     }
 
