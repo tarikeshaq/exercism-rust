@@ -1,32 +1,30 @@
 use std::collections::{HashMap, HashSet};
 
-fn initilize_map(word: &str) -> HashMap<char, i32> {
-    let mut characters_map = HashMap::new();
-    word.chars().flat_map(|c| c.to_lowercase()).for_each(|c| {
-        let count = characters_map.entry(c).or_insert(0);
-        *count += 1;
-    });
-    characters_map
-}
-
 fn is_anagram(word: &str, candidate: &str) -> bool {
-    if candidate
-        .chars()
-        .flat_map(|c| c.to_lowercase())
-        .eq(word.chars().flat_map(|c| c.to_lowercase()))
-    {
+    let mut candidate_iter = candidate.chars().flat_map(|c| c.to_lowercase());
+    let word_iter = word.chars().flat_map(|c| c.to_lowercase());
+    if candidate_iter.clone().eq(word_iter.clone()) {
         return false;
     }
 
-    let mut characters_map = initilize_map(word);
-    candidate
-        .chars()
-        .flat_map(|c| c.to_lowercase())
-        .for_each(|c| {
-            let count = characters_map.entry(c).or_insert(0);
-            *count -= 1;
-        });
-    characters_map.iter().all(|(_, value)| *value == 0)
+    let mut characters_map = HashMap::new();
+    word_iter.for_each(|c| {
+        let count = characters_map.entry(c).or_insert(0);
+        *count += 1;
+    });
+
+    match candidate_iter.try_for_each(|c| {
+        let count = characters_map.entry(c).or_insert(0);
+        *count -= 1;
+        if *count < 0 {
+            Err(())
+        } else {
+            Ok(())
+        }
+    }) {
+        Err(_) => false,
+        Ok(_) => characters_map.iter().all(|(_, value)| *value == 0),
+    }
 }
 
 pub fn anagrams_for<'a>(word: &str, possible_anagrams: &'a [&str]) -> HashSet<&'a str> {
