@@ -25,20 +25,20 @@ impl Robot {
     pub fn turn_right(self) -> Self {
         match self.direction() {
             Direction::North => Robot {
-                position: self.position(),
                 direction: Direction::East,
+                ..self
             },
             Direction::East => Robot {
-                position: self.position(),
                 direction: Direction::South,
+                ..self
             },
             Direction::South => Robot {
-                position: self.position(),
                 direction: Direction::West,
+                ..self
             },
             Direction::West => Robot {
-                position: self.position(),
                 direction: Direction::North,
+                ..self
             },
         }
     }
@@ -46,43 +46,42 @@ impl Robot {
     pub fn turn_left(self) -> Self {
         match self.direction() {
             Direction::North => Robot {
-                position: self.position(),
                 direction: Direction::West,
+                ..self
             },
             Direction::East => Robot {
-                position: self.position(),
                 direction: Direction::North,
+                ..self
             },
             Direction::South => Robot {
-                position: self.position(),
                 direction: Direction::East,
+                ..self
             },
             Direction::West => Robot {
-                position: self.position(),
                 direction: Direction::South,
+                ..self
             },
         }
     }
 
     pub fn advance(self) -> Self {
         let (x, y) = self.position();
-        let &direction = self.direction();
-        match direction {
+        match self.direction() {
             Direction::North => Robot {
                 position: (x, y + 1),
-                direction,
+                ..self
             },
             Direction::East => Robot {
                 position: (x + 1, y),
-                direction,
+                ..self
             },
             Direction::South => Robot {
                 position: (x, y - 1),
-                direction,
+                ..self
             },
             Direction::West => Robot {
                 position: (x - 1, y),
-                direction,
+                ..self
             },
         }
     }
