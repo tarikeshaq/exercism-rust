@@ -11,21 +11,11 @@ impl From<u64> for Duration {
 }
 
 pub trait Planet {
+    const PERIOD: f64;
     fn years_during(d: &Duration) -> f64 {
-        unimplemented!(
-            "convert a duration ({:?}) to the number of years on this planet for that duration",
-            d,
-        );
+        d.0 / Self::PERIOD
     }
 }
-
-const MERCURY_PERIOD: f64 = 0.240_846_7;
-const VENUS_PERIOD: f64 = 0.615_197_26;
-const MARS_PERIOD: f64 = 1.880_815_8;
-const JUPITER_PERIOD: f64 = 11.862_615;
-const SATURN_PERIOD: f64 = 29.447_498;
-const URANUS_PERIOD: f64 = 84.016_846;
-const NEPTUNE_PERIOD: f64 = 164.791_32;
 
 pub struct Mercury;
 pub struct Venus;
@@ -37,42 +27,26 @@ pub struct Uranus;
 pub struct Neptune;
 
 impl Planet for Mercury {
-    fn years_during(d: &Duration) -> f64 {
-        d.0 / MERCURY_PERIOD
-    }
+    const PERIOD: f64 = 0.240_846_7;
 }
 impl Planet for Venus {
-    fn years_during(d: &Duration) -> f64 {
-        d.0 / VENUS_PERIOD
-    }
+    const PERIOD: f64 = 0.615_197_26;
 }
 impl Planet for Earth {
-    fn years_during(d: &Duration) -> f64 {
-        d.0
-    }
+    const PERIOD: f64 = 1.0;
 }
 impl Planet for Mars {
-    fn years_during(d: &Duration) -> f64 {
-        d.0 / MARS_PERIOD
-    }
+    const PERIOD: f64 = 1.880_815_8;
 }
 impl Planet for Jupiter {
-    fn years_during(d: &Duration) -> f64 {
-        d.0 / JUPITER_PERIOD
-    }
+    const PERIOD: f64 = 11.862_615;
 }
 impl Planet for Saturn {
-    fn years_during(d: &Duration) -> f64 {
-        d.0 / SATURN_PERIOD
-    }
+    const PERIOD: f64 = 29.447_498;
 }
 impl Planet for Uranus {
-    fn years_during(d: &Duration) -> f64 {
-        d.0 / URANUS_PERIOD
-    }
+    const PERIOD: f64 = 84.016_846;
 }
 impl Planet for Neptune {
-    fn years_during(d: &Duration) -> f64 {
-        d.0 / NEPTUNE_PERIOD
-    }
+    const PERIOD: f64 = 164.791_32;
 }
